@@ -1,6 +1,6 @@
 #[path = "spotify_api.rs"] mod spotify_api;
 
-use rocket::serde::json::Json;
+use rocket::{serde::json::Json, State};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -31,9 +31,9 @@ struct Albums {
 }
 
 #[get("/")]
-pub async fn get_all_albums() -> Json<Vec<Album>> {
+pub async fn get_all_albums(token: &State<String>) -> Json<Vec<Album>> {
     let album_ids = "7caGY3YPOchIO8xLvTKWN4,5zi7WsKlIiUXv09tbGLKsE,382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc";
-    let data = match spotify_api::get_albums(album_ids).await {
+    let data = match spotify_api::get_albums(album_ids, token.as_str()).await {
         Ok(data) => data,
         Err(err) => panic!("Error: {}", err)
     };
