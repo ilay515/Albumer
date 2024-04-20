@@ -1,18 +1,22 @@
-import { Col, Flex, Layout, Row } from 'antd'
+import { Flex, Layout, theme } from 'antd'
 import './styles.css'
 import Title from 'antd/es/typography/Title';
 import Album from '../album/album';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AlbumProps } from '../album/album';
+import Sider from 'antd/es/layout/Sider';
 
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const PageLayout = () => {
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
     const [albums, setAlbums] = useState<AlbumProps[]>([]);
     const getData = async () => {
-        const { data } = await axios.get(`http://127.0.0.1:8000/albums`);
+        const { data } = await axios.get(`http://127.0.0.1:8000/library`);
         console.log(data)
         setAlbums(data);
     };
@@ -21,19 +25,27 @@ const PageLayout = () => {
     }, []);
 
     return (
-        <Layout className='page-layout'>
-            <Header >
-                <Flex className='title' justify={'center'} align={'center'}>
-                    <Title >
-                        Albumer
-                    </Title>
-                </Flex>
-            </Header>
-            <Content >
-                <Flex wrap="wrap" gap="small">
-                    {albums.map((album: AlbumProps) => <Album {...album} />)}
-                </Flex>
-            </Content>
+        <Layout className='page-layout' style={{ minHeight: '100vh' }}>
+            <Sider>
+                <Title>
+                    Albumer
+                </Title>
+            </Sider>
+            <Layout>
+                <Content
+                    style={{
+                        margin: '24px 16px',
+                        padding: 24,
+                        minHeight: 280,
+                        background: colorBgContainer,
+                        borderRadius: borderRadiusLG,
+                    }}
+                >
+                    <Flex wrap="wrap" gap="small">
+                        {albums.map((album: AlbumProps) => <Album {...album} />)}
+                    </Flex>
+                </Content>
+            </Layout>
         </Layout>
     )
 };
