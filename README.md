@@ -1,4 +1,5 @@
 # Albumer
+![alt text](demo.png)
 
 ## About
 A website to store and rate your favorite albums

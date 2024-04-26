@@ -1,12 +1,12 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Artist {
+pub struct Artist {
     name: String
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Image {
+pub struct Image {
     url: String,
     height: i32,
     width: i32
