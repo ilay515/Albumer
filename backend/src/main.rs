@@ -16,7 +16,6 @@ async fn rocket() -> _ {
         Ok(token) => token,
         Err(err) => panic!("Error: {}", err)
     };
-    // let token = "ASDSAD".to_string();
 
     rocket::build()
         .manage(token)
